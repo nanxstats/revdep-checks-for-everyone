@@ -2,7 +2,7 @@
 title: "Reverse dependency checks for everyone"
 subtitle: "Automating R integration testing at cloud scale"
 author: "Nan Xiao"
-date: "November 17, 2025"
+date: "November 18, 2025"
 embed-resources: true
 format:
   revealjs:
@@ -24,15 +24,15 @@ format:
 
 Hi, I'm Nan Xiao (@nanxstats)!
 
-Passionate about writing fast and correct code + developer tooling to achieve that
+Passionate about writing fast and correct code + better developer tooling
 
-- Creator of ggsci, pkglite, and other R and Python packages
-- Work on the intersection of statistical methodology and research software engineering
+- Learned from wholesome frequentist and Bayesian statisticians
+- Creator of ggsci, pkglite, tinytopics, and other R, Python, TypeScript, Rust packages
+- Work on intersection of statistical methodology and research software engineering
 
 ## Outline
 
 - The problem
-- Background
 - Scale challenges
 - Solution: revdeprun
 - Validation: data.table
@@ -68,8 +68,6 @@ Philosophy: All packages should always work together out of the box
 
 Solution: invest developer time to save user time
 
-# Background
-
 ## The process
 
 1. Find all reverse dependencies for your package
@@ -78,7 +76,12 @@ Solution: invest developer time to save user time
    - Once with your updated version
 1. Compare results. Ensure your changes don't break them
 
-Simple in theory. Complex in practice.
+**Simple in theory. Complex in practice:**
+
+- Install R and sysdeps: pandoc, Quarto, TeX
+- Install dependencies for checking revdeps and their sysdeps
+- Transient network errors and random failures
+- Check results diff comparison threshold
 
 # Scale challenges
 
@@ -104,7 +107,7 @@ Each solves part of the problem.
 
 None solve the whole problem for cloud-scale checking **for everyone**.
 
-## Reinventing the wheel when it matters
+## Reinvent the wheel when it matters
 
 ![xkcd 927: Standards](images/xkcd-927.png){fig-align="center" width="75%"}
 

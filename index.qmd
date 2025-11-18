@@ -24,11 +24,10 @@ title-slide-attributes:
 
 Hi, I'm Nan Xiao (@nanxstats)!
 
-Passionate about writing fast and correct code + developer tooling to achieve that.
+Passionate about writing fast and correct code + developer tooling to achieve that
 
-Creator of ggsci, pkglite, and other R and Python packages.
-
-Work on the intersection of statistical methodology and research software engineering.
+- Creator of ggsci, pkglite, and other R and Python packages
+- Work on the intersection of statistical methodology and research software engineering
 
 ## Outline
 
@@ -41,11 +40,10 @@ Work on the intersection of statistical methodology and research software engine
 
 # The problem {background-color="#385898"}
 
-## What makes R different?
+## What makes R unique?
 
-CRAN has 23,000+ packages. They all need to work together.
-
-When you update your package, you must check that downstream packages still work.
+- CRAN has 23,000+ packages. They all need to work together.
+- When you update your package, you must check that downstream packages still work.
 
 From [CRAN Repository Policy](https://cran.r-project.org/web/packages/policies.html):
 
@@ -62,28 +60,23 @@ From CRAN emails to maintainers after submission:
 
 ## Why this matters
 
-Integration testing at the ecosystem level.
+Philosophy: All packages should always work together out of the box
 
-Python: virtual environments isolate dependencies.
+- Integration testing at the ecosystem level
+- Python: must use virtual environments to lock and isolate dependencies
+- R: CRAN tests ensure your update won't break downstream packages
 
-R: CRAN tests ensure your update won't break downstream packages.
-
-Philosophy: invest developer time to save user time.
-
-All packages should always work together out of the box.
+Solution: invest developer time to save user time
 
 # Background {background-color="#385898"}
 
 ## The process
 
-Find all reverse dependencies for your package.
-
-Run `R CMD check` on each one, twice:
-
-- Once with the current CRAN version of your package
-- Once with your updated version
-
-Compare results. Ensure your changes don't break them.
+1. Find all reverse dependencies for your package
+1. Run `R CMD check` on each one, twice:
+   - Once with the current CRAN version of your package
+   - Once with your updated version
+1. Compare results. Ensure your changes don't break them
 
 Simple in theory. Complex in practice.
 
@@ -91,9 +84,8 @@ Simple in theory. Complex in practice.
 
 ## The scale problem
 
-Small scale: use {tools} or {revdepcheck} or xfun::rev_check() manually.
-
-Large scale: hundreds or thousands of packages to check.
+- Small scale: use {tools} or {revdepcheck} or `xfun::rev_check()` manually
+- Large scale: hundreds or thousands of packages to check
 
 You need:
 
@@ -104,13 +96,12 @@ You need:
 
 ## Existing solutions
 
-revdepcheck: mature but can't use binary repos for Linux on cloud instances.
-
-revdepcheck.extras: detailed improvements but same limitations.
-
-xfun::rev_check(): fast parallel checking but doesn't install system dependencies.
+- {revdepcheck}: mature but can't use binary repos for Linux on cloud instances
+- {revdepcheck.extras}: detailed improvements but same limitations
+- `xfun::rev_check()`: fast parallel checking but doesn't install system dependencies
 
 Each solves part of the problem.
+
 None solve the whole problem for cloud-scale checking **for everyone**.
 
 ## xkcd 927: Standards
@@ -121,31 +112,24 @@ None solve the whole problem for cloud-scale checking **for everyone**.
 
 ## Design goals
 
-Target audience: CRAN package maintainers with many reverse dependencies.
-
-Target environment: disposable Ubuntu cloud instances with high CPU count.
-
-Easy setup: no manual R installation, no complex configuration.
+- Target audience: CRAN package maintainers with many reverse dependencies
+- Target environment: disposable Ubuntu cloud instances with high CPU count
+- Easy setup: no manual R installation, no complex configuration
 
 Run one command, get coffee, watch it work.
 
 ## The solution
 
-Use pak to install binary dependencies from Posit Public Package Manager (P3M).
-
-Use xfun::rev_check() for parallel checking.
-
-Wrap everything in a Rust CLI that handles setup automatically.
-
-One command from fresh Ubuntu to complete results.
+- Use pak to install binary dependencies from Posit Public Package Manager (P3M)
+- Use `xfun::rev_check()` for parallel checking
+- Wrap everything in a Rust CLI that handles setup automatically
+- One command from fresh Ubuntu to complete results
 
 ## Why Rust CLI?
 
-Single static binary. No runtime dependencies.
-
-You can't use R to install R. You can't use Python to install R.
-
-Shell scripts get messy fast. No proper error handling, testing, or distribution.
+- Single static binary. No runtime dependencies
+- You can't use R to install R. You can't use Python to install R.
+- Shell scripts get messy fast. No proper error handling, testing, or distribution.
 
 Rust gives you:
 
@@ -191,67 +175,49 @@ revdeprun --work-dir /data/workspace https://github.com/USER/PACKAGE.git
 
 ## What it does
 
-Installs the current release version of R for Ubuntu.
-
-Discovers all reverse dependencies from CRAN metadata.
-
-Installs system requirements for all reverse dependencies.
-
-Pre-installs binary dependencies from P3M into `revdep/library/`.
-
-Runs `xfun::rev_check()` with all available CPU cores.
-
-Generates summary reports for packages with check diffs.
+- Installs the current release version of R for Ubuntu
+- Discovers all reverse dependencies from CRAN metadata
+- Installs system requirements for all reverse dependencies
+- Pre-installs binary dependencies from P3M into `revdep/library/`
+- Runs `xfun::rev_check()` with all available CPU cores
+- Generates summary reports for packages with check diffs
 
 ## Why binary packages matter
 
-Installing 4,395 packages from source would take days.
-
-Posit Public Package Manager (P3M) provides pre-compiled binaries for Linux.
-
-pak can install these binaries in minutes instead of hours.
-
-This is what makes cloud-scale checking practical.
-
-The speedrun used P3M. Setup took 2 hours instead of 20+.
+- Installing thousands of packages from source would take days
+- Posit Public Package Manager (P3M) provides pre-compiled binaries for Linux
+- pak can install these binaries in minutes instead of hours
+- This is what makes cloud-scale checking practical
 
 ## Workflow: Phase 1
 
-Environment setup and dependency installation.
+Environment setup and dependency installation:
 
 ![](images/workflow-phase-1.svg){width=100%}
 
 ## Workflow: Phase 2
 
-Parallel checking of all reverse dependencies.
+Parallel checking of all reverse dependencies:
 
 ![](images/workflow-phase-2.svg){width=90%}
 
 ## Key crates
 
-anyhow: error handling with context.
-
-clap: command-line argument parsing.
-
-indicatif: progress bars for long-running operations.
-
-reqwest: HTTP client for downloading packages and metadata.
-
-serde/serde_json: JSON parsing for package metadata.
-
-xshell: ergonomic shell scripting in Rust.
+- anyhow: error handling with context
+- clap: command-line argument parsing
+- indicatif: progress bars for long-running operations
+- reqwest: HTTP client for downloading packages and metadata
+- serde/serde_json: JSON parsing for package metadata
+- xshell: ergonomic shell scripting in Rust
 
 # Validation: data.table {background-color="#385898"}
 
 ## Why data.table?
 
-One of the most depended upon packages on CRAN (rank 15).
-
-1,723 reverse dependencies at the time of testing.
-
-The maintainers were kind enough to try revdeprun and report their experience.
-
-Perfect test case for cloud-scale checking.
+- One of the most depended upon packages on CRAN (rank 15)
+- 1,723 reverse dependencies at the time of testing
+- The maintainers were kind enough to try revdeprun and report their experience
+- Perfect test case for cloud-scale checking
 
 ## The instance
 
@@ -285,47 +251,35 @@ Cloud instance specs:
 
 ## Results
 
-Total time: 8 hours 55 minutes.
+- Total time: 8 hours 55 minutes
+- Total cost: $14
+- Setup time: 2 hours 12 minutes
+- Checking time: 6 hours 43 minutes
 
-Total cost: $14 (less than lunch).
-
-Setup time: 2 hours 12 minutes.
-
-Checking time: 6 hours 43 minutes.
-
-For a top 20 CRAN package, less than the cost of lunch.
+For a top 20 CRAN package, less than the cost of lunch
 
 # Lessons learned {background-color="#385898"}
 
 ## Developer tools matter
 
-Good developer tools make developers productive.
-
-Automation saves time. Time saves money. Money enables more development.
-
-The R community has excellent package development tools.
-
-Adding cloud-scale automation is the next step.
+- Good developer tools make developers productive.
+- Automation saves time. Time saves money. Money enables more development.
+- The R community has excellent package development tools.
+- Commoditize cloud-scale automation is the future.
 
 ## Complexity is real
 
-Multiple people tried solving this problem.
-
-Each solution tackles part of it.
-
-If many smart people couldn't solve it completely, it's genuinely hard.
-
-The devil is in the details: system dependencies, binary repos, parallel checking.
+- Multiple people tried solving this problem.
+- Each solution tackles part of it.
+- If many smart people couldn't solve it completely, it's genuinely hard.
+- The devil is in the details: system dependencies, binary repos, parallel checking.
 
 ## What to optimize
 
-In the age of AI-assisted coding, the question shifts.
-
-Not: how do you build something?
-
-But: what should you build?
-
-Choose problems that matter. Build tools that save time at scale.
+- In the age of AI-assisted coding, the question shifts.
+- Not: how do you build something?
+- But: what should you build?
+- Choose problems that matter. Build tools that save time at scale.
 
 ## Security matters
 
@@ -341,13 +295,10 @@ Destroy them when done.
 
 ## Future directions
 
-What about packages with 10,000+ reverse dependencies?
-
-Can we optimize the 2+ hour setup phase?
-
-Can we cache dependency installations across runs?
-
-How do we handle Bioconductor packages?
+- What about packages with 10,000+ reverse dependencies?
+- Can we optimize the 2+ hour setup phase? `rv`?
+- Can we cache dependency installations across runs?
+- How do we handle Bioconductor packages?
 
 These are open questions. Contributions welcome.
 

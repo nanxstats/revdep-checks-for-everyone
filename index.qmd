@@ -18,6 +18,7 @@ format:
     scrollable: false
     code-line-numbers: false
     auto-stretch: false
+    background-transition: fade
 title-slide-attributes:
   data-background-image: images/birmingham-museums-trust-nbneQlI2M1A-unsplash.jpg
 ---

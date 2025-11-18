@@ -219,7 +219,7 @@ Parallel checking of all reverse dependencies:
 
 - One of the most depended upon packages on CRAN (rank 15)
 - 1,723 reverse dependencies at the time of testing
-- The maintainers were kind enough to try revdeprun and report their experience
+- The maintainers were kind enough to try revdeprun and [report their experience](https://github.com/nanxstats/revdeprun/issues/24)
 - Perfect test case for cloud-scale checking
 
 ## The instance
@@ -285,14 +285,6 @@ Cloud instance specs:
 - Not: how do you build something?
 - But: what should you build?
 - Choose problems that matter. Build tools that save time at scale.
-
-## Security matters
-
-**Never run reverse dependency checks on your local machine**
-
-- Reverse dependency checks execute arbitrary third-party code
-- Always use disposable cloud instances or containers
-- Destroy them when done
 
 ## Future directions
 

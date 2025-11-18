@@ -8,11 +8,11 @@ format:
   revealjs:
     theme: [default, custom.scss]
     mainfont: "Lato, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, Liberation Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji"
-    monofont: "JetBrains Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
+    monofont: "Twilio Sans Mono, ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
     resources:
       - fonts/Lato-VF.woff2
       - fonts/Lato-Italic-VF.woff2
-      - fonts/JetBrainsMono-Regular.woff2
+      - fonts/TwilioSansMono-Retina.woff2
     smaller: true
     slide-number: true
     scrollable: false
@@ -90,7 +90,7 @@ Solution: invest developer time to save user time
 
 ## The scale problem
 
-- Small scale: use {tools} or {revdepcheck} or `xfun::rev_check()` manually
+- Small scale: use `tools`, `revdepcheck`, or `xfun::rev_check()` manually
 - Large scale: hundreds or thousands of packages to check
 
 You need:
@@ -102,8 +102,8 @@ You need:
 
 ## Existing solutions
 
-- {revdepcheck}: mature but can't use binary repos for Linux
-- {revdepcheck.extras}: flow and CLI improvements but similar limitations
+- `revdepcheck`: mature but can't use binary repos for Linux
+- `revdepcheck.extras`: flow and CLI improvements but similar limitations
 - `xfun::rev_check()`: fast parallel checking but doesn't install system dependencies
 
 Each solves part of the problem.
@@ -118,7 +118,7 @@ I benefited from [sharing the news
 ](https://stat.ethz.ch/pipermail/r-package-devel/2025q4/012074.html)
 on the r-package-devel mailing list.
 
-![xkcd 927: Standards](images/xkcd-927.png){fig-align="center" width="60%"}
+![You know there's a library that does exactly what you're trying to do There's no need to reinvent the wheel. I dunno, man... Their wheels are pretty janky.](images/xkcd-927.png){fig-align="center" width="60%"}
 
 # Solution: revdeprun
 
@@ -164,10 +164,10 @@ on the r-package-devel mailing list.
 Rust gives you:
 
 - Single static binary. No runtime dependencies.
-- Proper error handling (anyhow)
-- CLI parsing (clap)
-- Progress bars (indicatif)
-- HTTP client (reqwest)
+- Proper error handling (`anyhow`)
+- CLI parsing (`clap`)
+- Progress bars (`indicatif`)
+- HTTP client (`reqwest`)
 
 ## Installation
 
@@ -206,12 +206,12 @@ revdeprun --work-dir /data/workspace https://github.com/USER/PACKAGE.git
 
 ## Key crates
 
-- anyhow: error handling with context
-- clap: command-line argument parsing
-- indicatif: progress bars for long-running operations
-- reqwest: HTTP client for downloading packages and metadata
-- serde/serde_json: JSON parsing for package metadata
-- xshell: ergonomic shell scripting in Rust
+- `anyhow`: error handling with context
+- `clap`: command-line argument parsing
+- `indicatif`: progress bars for long-running operations
+- `reqwest`: HTTP client for downloading packages and metadata
+- `serde`/`serde_json`: JSON parsing for package metadata
+- `xshell`: ergonomic shell scripting in Rust
 
 # Validation: data.table
 

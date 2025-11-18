@@ -2,6 +2,7 @@
 
 $primary: #385898 !default;
 $presentation-title-slide-text-align: left;
+$body-bg: #f9f8f3;
 
 #title-slide .title {
   font-size: 3.25rem !important;
@@ -26,7 +27,6 @@ $presentation-title-slide-text-align: left;
 
 .reveal h1 {
   font-size: 4rem !important;
-  color: #FFFFFF !important;
 }
 
 .reveal h2 {
@@ -35,7 +35,11 @@ $presentation-title-slide-text-align: left;
 }
 
 .reveal .caption {
-  text-align: center !important;
+  text-align: center;
+}
+
+.reveal blockquote p {
+  font-size: 1.65rem;
 }
 
 /*-- scss:rules --*/

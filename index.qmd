@@ -15,9 +15,7 @@ format:
       - fonts/JetBrainsMono-Regular.woff2
     smaller: true
     slide-number: true
-    scrollable: true
-title-slide-attributes:
-  data-background-color: "#385898"
+    scrollable: false
 ---
 
 ## About me
@@ -38,7 +36,7 @@ Passionate about writing fast and correct code + developer tooling to achieve th
 - Validation: data.table
 - Lessons learned
 
-# The problem {background-color="#385898"}
+# The problem
 
 ## What makes R unique?
 
@@ -68,7 +66,7 @@ Philosophy: All packages should always work together out of the box
 
 Solution: invest developer time to save user time
 
-# Background {background-color="#385898"}
+# Background
 
 ## The process
 
@@ -80,7 +78,7 @@ Solution: invest developer time to save user time
 
 Simple in theory. Complex in practice.
 
-# Scale challenges {background-color="#385898"}
+# Scale challenges
 
 ## The scale problem
 
@@ -108,7 +106,7 @@ None solve the whole problem for cloud-scale checking **for everyone**.
 
 ![](images/xkcd-927.png){width=65%}
 
-# Solution: revdeprun {background-color="#385898"}
+# Solution: revdeprun
 
 ## Design goals
 
@@ -210,7 +208,7 @@ Parallel checking of all reverse dependencies:
 - serde/serde_json: JSON parsing for package metadata
 - xshell: ergonomic shell scripting in Rust
 
-# Validation: data.table {background-color="#385898"}
+# Validation: data.table
 
 ## Why data.table?
 
@@ -258,7 +256,7 @@ Cloud instance specs:
 
 For a top 20 CRAN package, less than the cost of lunch
 
-# Lessons learned {background-color="#385898"}
+# Lessons learned
 
 ## Developer tools matter
 
@@ -302,7 +300,7 @@ Destroy them when done.
 
 These are open questions. Contributions welcome.
 
-# Questions? {background-color="#385898"}
+# Questions?
 
 ## Resources
 

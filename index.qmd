@@ -170,13 +170,19 @@ on the r-package-devel mailing list.
 - Shell scripts get messy fast. No proper error handling, testing, or distribution.
 - R or Python packages may create circular or complicated runtime situations.
 
-Rust gives you:
+Rust gives you separation of concerns:
 
-- Separation of concerns (single static binary, no runtime dependencies)
-- Proper error handling (`anyhow`)
-- CLI parsing (`clap`)
-- Progress bars (`indicatif`)
-- HTTP client (`reqwest`)
+- Single static binary, no runtime dependencies
+- Proper error handling, testing, and cross-platform distribution
+
+## Key crates
+
+- `anyhow`: error handling with context
+- `clap`: command-line argument parsing
+- `indicatif`: progress bars for long-running operations
+- `reqwest`: HTTP client for downloading packages and metadata
+- `serde`/`serde_json`: JSON parsing for package metadata
+- `xshell`: cross-platform scripting environment in Rust
 
 ## Get started
 
@@ -212,15 +218,6 @@ revdeprun ~/packages/mypackage_1.2.3.tar.gz
 # Custom workspace
 revdeprun --work-dir /data/workspace https://github.com/USER/PACKAGE.git
 ```
-
-## Key crates
-
-- `anyhow`: error handling with context
-- `clap`: command-line argument parsing
-- `indicatif`: progress bars for long-running operations
-- `reqwest`: HTTP client for downloading packages and metadata
-- `serde`/`serde_json`: JSON parsing for package metadata
-- `xshell`: ergonomic shell scripting in Rust
 
 # Validation: data.table
 

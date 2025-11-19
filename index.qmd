@@ -45,16 +45,17 @@ Passionate about writing fast and correct code + better developer tooling
 
 ## What makes R unique?
 
-- CRAN has 23,000+ packages: they all need to work together
-- When updating your package, must check that downstream packages still work
+- 23,000+ packages on CRAN today
+- The CRAN social contract: We don't break downstream code
+- Any upstream package updates must check that downstream packages still work
 
-From [CRAN Repository Policy](https://cran.r-project.org/web/packages/policies.html):
+Package authors should check following [CRAN repository policy](https://cran.r-project.org/web/packages/policies.html):
 
 > For a package update, please check that any packages depending on this one
 > still pass `R CMD check`: it is especially expected that you will have
 > checked your own packages.
 
-From CRAN emails to maintainers after submission:
+CRAN will check independently after update submission:
 
 > package ggsci_4.1.0.tar.gz has been auto-processed and is pending an automated
 > reverse dependency check. This service will typically respond to you within
@@ -63,13 +64,15 @@ From CRAN emails to maintainers after submission:
 
 ## Why this matters
 
-Philosophy: All packages should always work together out of the box
+**Goal**: A shattered ecosystem helps no one, so we need integration testing at the ecosystem level. All packages should always work together out of the box.
 
-- Integration testing at the ecosystem level
-- Python: must use virtual environments to lock and isolate dependencies
 - R: CRAN tests ensure your update won't break downstream packages
+- Python: must use virtual environments to lock and isolate dependencies
 
-Solution: invest developer time to save user time
+**Solution**: invest developer time to save user time
+
+- For a user, `library(ggplot2)` just works
+- For a maintainer, making that happen can be terrifyingly laborious
 
 ## The process
 
@@ -102,15 +105,21 @@ You need:
 
 ## Existing solutions
 
-- `revdepcheck`: can't use binary repos for Linux, cloud check is private feature
-- `revdepcheck.extras`: workflow and CLI improvements but similar limitations
-- `xfun::rev_check()`: fast parallel checking but doesn't install system dependencies
+- `revdepcheck`: great for local checks of 50 revdeps on Windows/macOS
+- `revdepcheck.extras`: workflow and CLI tooling improvements
+- `xfun::rev_check()`: fast parallel checking on Windows/macOS
+
+**Known limitations:**
+
+- Can't use binary repos for Linux
+- System dependencies handling varies
+- Cloud check is either a private feature or limited to GitHub Actions runners
 
 Each solves part of the problem.
 
 None solves the whole problem for cloud-scale checking **for everyone**.
 
-## Reinvent the wheel when it matters
+## Build the right tool for the job
 
 **Pro tip**: Seek early product-market fit signals from the right audience.
 
@@ -118,7 +127,7 @@ I benefited from [sharing the news
 ](https://stat.ethz.ch/pipermail/r-package-devel/2025q4/012074.html)
 on the r-package-devel mailing list.
 
-![](images/bike.gif){fig-align="center" width="45%"}
+![Reinvent the wheel when it matters](images/bike.gif){fig-align="center" width="45%"}
 
 # Solution: revdeprun
 
@@ -132,9 +141,9 @@ on the r-package-devel mailing list.
 
 ## The solution
 
-- Use `pak` to install binary dependencies from Posit Public Package Manager (P3M)
+- Use `pak` to install **binary dependencies** from Posit Public Package Manager (P3M)
 - Use `xfun::rev_check()` for parallel checking
-- Wrap everything in a Rust CLI that handles setup automatically
+- Wrap in a **Rust CLI** that automates everything
 - One command from fresh Ubuntu to complete results
 
 ## Workflow
@@ -159,11 +168,11 @@ on the r-package-devel mailing list.
 ## Why Rust CLI?
 
 - Shell scripts get messy fast. No proper error handling, testing, or distribution.
-- R or Python may create circular or complicated runtime situations.
+- R or Python packages may create circular or complicated runtime situations.
 
 Rust gives you:
 
-- Single static binary. No runtime dependencies.
+- Separation of concerns (single static binary, no runtime dependencies)
 - Proper error handling (`anyhow`)
 - CLI parsing (`clap`)
 - Progress bars (`indicatif`)
@@ -252,12 +261,12 @@ Cloud instance specs:
 
 08:55:00 - Finished. 37 packages reported check diffs.
 
-![All 48 cores at 100% during checking](images/btop.png){fig-align="center" width="70%"}
+![48 cores, 100% utilization, 0% headache.](images/btop.png){fig-align="center" width="70%"}
 
 ## Results
 
 - Total time: 8 hours 55 minutes
-- Total cost: $14
+- Total cost: `$14`
 - Setup time: 2 hours 12 minutes
 - Checking time: 6 hours 43 minutes
 
@@ -289,7 +298,7 @@ Cloud instance specs:
 
 ## What to optimize
 
-- In the age of AI-assisted coding, the question shifts.
+- AI writes code fast. We need to verify it even faster.
 - Not: how do you build something? But: what should you build?
 - Choose problems that matter. Build tools that save time at scale.
 - Know what's out there. Try everything. Start building.

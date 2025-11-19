@@ -118,7 +118,7 @@ I benefited from [sharing the news
 ](https://stat.ethz.ch/pipermail/r-package-devel/2025q4/012074.html)
 on the r-package-devel mailing list.
 
-![](images/janky.png){fig-align="center" width="45%"}
+![](images/bike.gif){fig-align="center" width="45%"}
 
 # Solution: revdeprun
 

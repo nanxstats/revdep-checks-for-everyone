@@ -367,29 +367,6 @@ Nan Xiao
 <li>Generates summary reports for packages with check diffs</li>
 </ul>
 </section>
-<section id="why-rust-cli" class="slide level2">
-<h2>Why Rust CLI?</h2>
-<ul>
-<li>Shell scripts get messy fast. No proper error handling, testing, or distribution.</li>
-<li>R or Python packages may create circular or complicated runtime situations.</li>
-</ul>
-<p>Rust gives you separation of concerns:</p>
-<ul>
-<li>Single static binary, no runtime dependencies</li>
-<li>Proper error handling, testing, and cross-platform distribution</li>
-</ul>
-</section>
-<section id="key-crates" class="slide level2">
-<h2>Key crates</h2>
-<ul>
-<li><code>anyhow</code>: error handling with context</li>
-<li><code>clap</code>: command-line argument parsing</li>
-<li><code>indicatif</code>: progress bars for long-running operations</li>
-<li><code>reqwest</code>: HTTP client for downloading packages and metadata</li>
-<li><code>serde</code>/<code>serde_json</code>: JSON parsing for package metadata</li>
-<li><code>xshell</code>: cross-platform scripting environment in Rust</li>
-</ul>
-</section>
 <section id="get-started" class="slide level2">
 <h2>Get started</h2>
 <p>Fresh Ubuntu instance. Four commands:</p>
@@ -418,6 +395,29 @@ Nan Xiao
 <span id="cb2-15"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom workspace</span></span>
 <span id="cb2-17"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">revdeprun</span> <span class="at">--work-dir</span> /data/workspace https://github.com/USER/PACKAGE.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="why-rust-cli" class="slide level2">
+<h2>Why Rust CLI?</h2>
+<ul>
+<li>Shell scripts get messy fast. No proper error handling, testing, or distribution.</li>
+<li>R or Python packages may create circular or complicated runtime situations.</li>
+</ul>
+<p>Rust gives you separation of concerns:</p>
+<ul>
+<li>Single static binary, no runtime dependencies</li>
+<li>Proper error handling, testing, and cross-platform distribution</li>
+</ul>
+</section>
+<section id="key-crates" class="slide level2">
+<h2>Key crates</h2>
+<ul>
+<li><code>anyhow</code>: error handling with context</li>
+<li><code>clap</code>: command-line argument parsing</li>
+<li><code>indicatif</code>: progress bars for long-running operations</li>
+<li><code>reqwest</code>: HTTP client for downloading packages and metadata</li>
+<li><code>serde</code>/<code>serde_json</code>: JSON parsing for package metadata</li>
+<li><code>xshell</code>: cross-platform scripting environment in Rust</li>
+</ul>
 </section></section>
 <section>
 <section id="validation-data.table" class="title-slide slide level1 center">
